@@ -26,6 +26,7 @@ namespace SampleProject.WebApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +45,7 @@ namespace SampleProject.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSignalR(s => s.MapHub<EchoHub>("/echo"));
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -67,6 +69,7 @@ namespace SampleProject.WebApp
 
                 if (env.IsDevelopment())
                 {
+                    spa.Options.StartupTimeout = new System.TimeSpan(0, 0, 90);
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
